@@ -27,29 +27,7 @@ void print_ll(LL_T *list) {
 }
 
 
-/* =========================================================
-   AUSGABE DLL
-   ========================================================= */
 
-void print_dll(DLL *list) {
-    uint32_t size;
-    double *array = dll_to_array(list, &size);
-
-    printf("[ ");
-
-    for (uint32_t i = 0; i < size; i++) {
-        printf("%.2f ", array[i]);
-    }
-
-    printf("]\n");
-
-    free(array);
-}
-
-
-/* =========================================================
-   TEST LL
-   ========================================================= */
 
 void test_ll() {
     LL_T list;
@@ -100,57 +78,7 @@ void test_ll() {
 }
 
 
-/* =========================================================
-   TEST DLL
-   ========================================================= */
 
-void test_dll() {
-    DLL list;
-    double value;
-
-    printf("\n==============================\n");
-    printf("    TEST DOUBLE LINKED LIST\n");
-    printf("==============================\n");
-
-    dll_init(&list);
-
-    printf("\nPush Front 10.50:\n");
-    dll_push_front(&list, 10.5);
-    print_dll(&list);
-
-    printf("Push Front 20.50:\n");
-    dll_push_front(&list, 20.5);
-    print_dll(&list);
-
-    printf("Push Back 30.50:\n");
-    dll_push_back(&list, 30.5);
-    print_dll(&list);
-
-    printf("Suche 30.50: Position %d\n",
-           dll_search(&list, 30.5));
-
-    printf("\nRemove Position 1:\n");
-    dll_remove_at(&list, 1);
-    print_dll(&list);
-
-    printf("Pop Front: ");
-
-    if (dll_pop_front(&list, &value))
-        printf("%.2f\n", value);
-
-    print_dll(&list);
-
-    printf("Pop Back: ");
-
-    if (dll_pop_back(&list, &value))
-        printf("%.2f\n", value);
-
-    print_dll(&list);
-
-    printf("\nListe leeren:\n");
-    dll_clear(&list);
-    print_dll(&list);
-}
 
 
 /* =========================================================
@@ -161,7 +89,7 @@ void benchmark() {
     const uint32_t N = 10000;
 
     LL_T ll;
-    DLL dll;
+
 
     double value;
 
@@ -169,7 +97,7 @@ void benchmark() {
     clock_t end;
 
     double time_ll;
-    double time_dll;
+
 
 
     printf("\n\n==============================\n");
@@ -200,22 +128,20 @@ void benchmark() {
     ll_clear(&ll);
 
 
-    dll_init(&dll);
+
 
     start = clock();
 
-    for (uint32_t i = 0; i < N; i++) {
-        dll_push_front(&dll, (double)i);
-    }
+
 
     end = clock();
 
-    time_dll = (double)(end - start) / CLOCKS_PER_SEC;
 
-    dll_clear(&dll);
+
+
 
     printf("LL :  %.6f s\n", time_ll);
-    printf("DLL:  %.6f s\n", time_dll);
+
 
 
     /* =====================================================
@@ -239,22 +165,19 @@ void benchmark() {
     ll_clear(&ll);
 
 
-    dll_init(&dll);
+
 
     start = clock();
 
-    for (uint32_t i = 0; i < N; i++) {
-        dll_push_back(&dll, (double)i);
-    }
+
 
     end = clock();
 
-    time_dll = (double)(end - start) / CLOCKS_PER_SEC;
 
-    dll_clear(&dll);
+
 
     printf("LL :  %.6f s\n", time_ll);
-    printf("DLL:  %.6f s\n", time_dll);
+
 
 
     /* =====================================================
@@ -264,11 +187,11 @@ void benchmark() {
     printf("\n--- Search ---\n");
 
     ll_init(&ll);
-    dll_init(&dll);
+
 
     for (uint32_t i = 0; i < N; i++) {
         ll_push_back(&ll, (double)i);
-        dll_push_back(&dll, (double)i);
+
     }
 
 
@@ -285,19 +208,17 @@ void benchmark() {
 
     start = clock();
 
-    for (uint32_t i = 0; i < N; i++) {
-        dll_search(&dll, (double)i);
-    }
+
 
     end = clock();
 
-    time_dll = (double)(end - start) / CLOCKS_PER_SEC;
+
 
     printf("LL :  %.6f s\n", time_ll);
-    printf("DLL:  %.6f s\n", time_dll);
+
 
     ll_clear(&ll);
-    dll_clear(&dll);
+
 
 
     /* =====================================================
@@ -307,11 +228,11 @@ void benchmark() {
     printf("\n--- Remove in der Mitte ---\n");
 
     ll_init(&ll);
-    dll_init(&dll);
+
 
     for (uint32_t i = 0; i < N; i++) {
         ll_push_back(&ll, (double)i);
-        dll_push_back(&dll, (double)i);
+
     }
 
 
@@ -328,19 +249,16 @@ void benchmark() {
 
     start = clock();
 
-    for (uint32_t i = 0; i < N / 2; i++) {
-        dll_remove_at(&dll, N / 2 - 1 - i);
-    }
+
 
     end = clock();
 
-    time_dll = (double)(end - start) / CLOCKS_PER_SEC;
 
     printf("LL :  %.6f s\n", time_ll);
-    printf("DLL:  %.6f s\n", time_dll);
+
 
     ll_clear(&ll);
-    dll_clear(&dll);
+
 
 
     /* =====================================================
@@ -366,28 +284,23 @@ void benchmark() {
     time_ll = (double)(end - start) / CLOCKS_PER_SEC;
 
 
-    dll_init(&dll);
 
-    for (uint32_t i = 0; i < N; i++) {
-        dll_push_front(&dll, (double)i);
-    }
+
+
 
     start = clock();
 
-    for (uint32_t i = 0; i < N; i++) {
-        dll_pop_back(&dll, &value);
-    }
-    
+
 
     end = clock();
 
-    time_dll = (double)(end - start) / CLOCKS_PER_SEC;
+
 
     printf("LL :  %.6f s\n", time_ll);
-    printf("DLL:  %.6f s\n", time_dll);
+
 
     ll_clear(&ll);
-    dll_clear(&dll);
+
 }
 
 
@@ -399,7 +312,7 @@ int main() {
 
     test_ll();
 
-    test_dll();
+
 
     benchmark();
 
