@@ -4,12 +4,10 @@
 #include <time.h>
 
 #include "linkedlist.h"
-#include "dll.h"
 
 
-/* =========================================================
-   AUSGABE LL
-   ========================================================= */
+
+
 
 void print_ll(LL_T *list) {
     uint32_t size;
